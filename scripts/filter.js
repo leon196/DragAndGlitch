@@ -2,34 +2,27 @@
 function Filter (fragmentSource)
 {
 	PIXI.AbstractFilter.call(this, null, fragmentSource, { 
-		uTime : { type: '1f', value: 0 },
-		uStrength : { type: '1f', value: 0 },
-		uStrength : { type: '1f', value: 0 },
-		uResolution : { type: '2f', value: [window.innerWidth, window.innerHeight] },
-		uTarget : { type: '2f', value: [0, 0] } ,
-		uOffset : { type: '2f', value: [0, 0] } ,
-		brushRadius : { type: '1f', value: 0 } ,
-		brushInverse : { type: '1f', value: 0 } ,
-		uImage : { type : 'sampler2D', value : 0},
-		uBuffer : { type : 'sampler2D', value : 0}
-	} );
+		time : { type: '1f', value: 0 },
+		resolution : { type: '2f', value: [window.innerWidth, window.innerHeight] },
+		brushStrength : { type: '1f', value: 1 },
+		brushPosition : { type: '2f', value: [0, 0] },
+		brushDrag : { type: '2f', value: [0, 0] },
+		brushRadius : { type: '1f', value: 100 },
+		brushStrengh : { type: '1f', value: 100 },
+		brushSoftness : { type: '1f', value: 1 },
+		brushInverse : { type: '1f', value: 0 }
+	});
 
 	this.update = function ()
 	{
-		this.uniforms.uTime.value = time.elapsed;
-	}
-
-	this.updateDrag = function (shouldDrag)
-	{
-		if (shouldDrag) {
-			this.uniforms.uTarget.value[0] = input.x;
-			this.uniforms.uTarget.value[1] = input.y;
-			this.uniforms.uOffset.value[0] = input.drag.x;
-			this.uniforms.uOffset.value[1] = input.drag.y;
-			this.uniforms.uStrength.value = 1;
-		} else {
-			this.uniforms.uStrength.value = 0;
-		}
+		this.uniforms.time.value = time.elapsed;
+		this.uniforms.brushRadius.value = gui.brushRadius;
+		this.uniforms.brushInverse.value = gui.brushInverse;
+		this.uniforms.brushSoftness.value = gui.brushSoftness ? 1 : 0;
+		this.uniforms.brushDrag.value[0] = 0;
+		this.uniforms.brushDrag.value[1] = 0;
+		this.uniforms.brushStrength.value = 0;
+		this.uniforms.brushStrength.value = gui.brushStrength;
 	}
 }
 

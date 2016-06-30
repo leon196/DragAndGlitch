@@ -31,9 +31,14 @@ function init ()
 
 function animate() 
 {
-	time.update();
-
 	requestAnimationFrame(animate);
+
+	time.update();
+	input.update();
+	gui.update();
+
+	gui.cursor.x = input.x;
+	gui.cursor.y = input.y;
 
 	if (input.clic) {
 		input.clic = false;
@@ -48,11 +53,31 @@ function animate()
 	// 	cursor.rotation = lerp(cursor.rotation, cursorRotSeed * Math.PI * 2.0, ratio);
 	// } else {
 	// }
-	gui.update();
 
-	filter.updateDrag(input.down);
 	filter.update();
-	buffer.update();
 
+	if (gui.dragAnchor == 'Follow') {
+		filter.uniforms.brushPosition.value[0] = input.x;
+		filter.uniforms.brushPosition.value[1] = input.y;
+	} else if (gui.dragAnchor == 'Origin') {
+		filter.uniforms.brushPosition.value[0] = input.dragOrigin.x;
+		filter.uniforms.brushPosition.value[1] = input.dragOrigin.y;
+		if (input.down) {
+			gui.cursor.x = input.dragOrigin.x;
+			gui.cursor.y = input.dragOrigin.y;
+		}
+	}
+
+	if (input.down) {
+		if (gui.dragStyle == 'Relative') {
+			filter.uniforms.brushDrag.value[0] = input.dragDelta.x;
+			filter.uniforms.brushDrag.value[1] = input.dragDelta.y;
+		} else if (gui.dragStyle == 'Absolute') {
+			filter.uniforms.brushDrag.value[0] = input.drag.x / 10;
+			filter.uniforms.brushDrag.value[1] = input.drag.y / 10;
+		}
+	}
+
+	buffer.update();
 	renderer.render(scene);
 }
