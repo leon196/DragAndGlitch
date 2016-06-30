@@ -22,7 +22,6 @@ function Filter (fragmentSource)
 		this.uniforms.brushDrag.value[0] = 0;
 		this.uniforms.brushDrag.value[1] = 0;
 		this.uniforms.brushStrength.value = 0;
-		this.uniforms.brushStrength.value = gui.brushStrength;
 	}
 }
 

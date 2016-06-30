@@ -69,13 +69,23 @@ function animate()
 	}
 
 	if (input.down) {
+
+		filter.uniforms.brushStrength.value = gui.brushStrength;
+
+		var rot = 0;
+
 		if (gui.dragStyle == 'Relative') {
 			filter.uniforms.brushDrag.value[0] = input.dragDelta.x;
 			filter.uniforms.brushDrag.value[1] = input.dragDelta.y;
+			rot = length(input.dragDelta) / 100;
 		} else if (gui.dragStyle == 'Absolute') {
 			filter.uniforms.brushDrag.value[0] = input.drag.x / 10;
 			filter.uniforms.brushDrag.value[1] = input.drag.y / 10;
+			rot = length(input.drag) / 1000;
 		}
+
+		gui.cursor.rotation += rot / gui.brushStrength;
+
 	}
 
 	buffer.update();

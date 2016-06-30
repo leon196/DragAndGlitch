@@ -61,8 +61,9 @@ input.setup = function (container)
 {
 	container.interactive = true;
 	container.on('mousedown', input.mouseDown).on('touchstart', input.mouseDown);
-	container.on('mouseup', input.mouseUp).on('touchend', input.mouseUp);
-	container.on('mouseout', input.mouseUp);
+	container.on('touchend', input.mouseUp);
+	window.onmouseup = input.mouseUp;
+	// container.on('mouseout', input.mouseUp);
 	container.on('mousemove', input.mouseMove).on('touchmove', input.mouseMove);
 	
 	addWheelListener(renderer.view, function (e) {

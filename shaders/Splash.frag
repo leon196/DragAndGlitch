@@ -11,6 +11,7 @@ uniform vec2 brushDrag;
 uniform float brushStrength;
 uniform float brushRadius;
 uniform float brushInverse;
+uniform float brushSoftness;
 
 // https://gist.github.com/patriciogonzalezvivo/670c22f3966e662d2f83
 float rand (vec2 n)
@@ -28,9 +29,10 @@ void main (void)
 	float angle = atan(center.y, center.x);
 	float radius = brushRadius / resolution.y;
 	float dist = smoothstep(0.0, radius, length(center));
+	dist = mix(step(0.999, dist), dist, brushSoftness);
 	dist = mix(1.0 - dist, dist, brushInverse);
 	float lod = 8.0;
-	float variation = rand(vec2(floor(angle * lod) / lod, 0)) * rand(vec2(angle, 0));
+	float variation = rand(vec2(floor(angle * lod) / lod, brushDrag.x)) * rand(vec2(angle, brushDrag.y));
 	variation *= variation;
 
 	vec2 offset = vec2(cos(angle), sin(angle)) * pixelUnit * brushStrength * variation * dist * 10.0;

@@ -1,7 +1,7 @@
 
 var loader = {};
 
-loader.shaderNames = ['drag', 'boom'];
+loader.shaderNames = ['Splash', 'Drag'];
 loader.imageNames = ['carte-monde-pays-drapeau.png'];
 loader.shaderArray = [];
 loader.imageArray = [];
