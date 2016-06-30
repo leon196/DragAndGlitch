@@ -26,7 +26,7 @@ gui.init = function (container)
 
 	var brush = datGUI.addFolder('Brush');
 	brush.add(gui, 'brushStyle', loader.shaderNames).name('Style').onChange(gui.updateBrushStyle);
-	brush.add(gui, 'brushShape', ['Circle', 'Box']).name('Shape').onChange(gui.updateBrushShape);
+	// brush.add(gui, 'brushShape', ['Circle', 'Box']).name('Shape').onChange(gui.updateBrushShape);
 	brush.add(gui, 'brushStrength', 1, 10).name('Strength');
 	brush.add(gui, 'brushRadius', 1, 1000).name('Radius').listen().onChange(gui.updateBrushRadius);
 	brush.add(gui, 'brushInverse').name('Inverse').onChange(gui.updateBrushInverse);

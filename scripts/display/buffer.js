@@ -33,6 +33,12 @@ function Buffer (renderer, width, height)
 		this.container.removeChild(container);
 	};
 
+	this.clear = function ()
+	{
+		this.renderTextureArray[0].clear();
+		this.renderTextureArray[1].clear();
+	};
+
 	this.print = function (container)
 	{
 		this.addChild(container);
@@ -43,9 +49,22 @@ function Buffer (renderer, width, height)
 	this.printFromImage = function (image)
 	{
 		var sprite = new PIXI.Sprite.fromImage(image);
-		sprite.width = this.width;
-		sprite.height = this.height;
-		buffer.print(sprite);
+		if (sprite.width > this.width) {
+			var ratio = sprite.height / sprite.width;
+			sprite.width = this.width;
+			sprite.height = sprite.width * ratio;
+			sprite.x = 0;
+			sprite.y = (this.height - sprite.height) / 2;
+		}
+		if (sprite.height > this.height) {
+			var ratio = sprite.width / sprite.height;
+			sprite.height = this.height;
+			sprite.width = sprite.height * ratio;
+			sprite.x = (this.width - sprite.width) / 2;
+			sprite.y = 0;
+		}
+		this.clear();
+		this.print(sprite);
 	};
 
 	this.reset = function ()
