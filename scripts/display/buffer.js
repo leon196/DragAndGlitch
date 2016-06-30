@@ -14,16 +14,6 @@ function Buffer (renderer, width, height)
 	this.container = new PIXI.Container();
 	this.container.addChild(this.sprite);
 
-	this.reset = function ()
-	{
-		this.renderTextureArray = [ 
-			new PIXI.RenderTexture(this.renderer, this.width, this.height),
-			new PIXI.RenderTexture(this.renderer, this.width, this.height)
-		];
-		this.current = 0;
-		this.sprite.texture = this.renderTextureArray[this.current];
-	};
-
 	this.update = function () 
 	{
 		// swap
@@ -56,5 +46,22 @@ function Buffer (renderer, width, height)
 		sprite.width = this.width;
 		sprite.height = this.height;
 		buffer.print(sprite);
+	};
+
+	this.reset = function ()
+	{
+		this.renderTextureArray = [ 
+			new PIXI.RenderTexture(this.renderer, this.width, this.height),
+			new PIXI.RenderTexture(this.renderer, this.width, this.height)
+		];
+		this.current = 0;
+		this.sprite.texture = this.renderTextureArray[this.current];
+	};
+
+	this.resize = function (width, height)
+	{
+		this.width = width;
+		this.height = height;
+		this.reset();
 	};
 };

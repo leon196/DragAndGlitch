@@ -1,27 +1,32 @@
 * 
 {
-    padding: 0;
-    margin: 0;
+	padding: 0;
+	margin: 0;
+}
+
+body
+{
+	overflow: hidden;
 }
 
 canvas 
 {
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    margin: 0 auto;
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	width: 100%;
+	margin: 0 auto;
 }
 
 #loader
 {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 32px;
-    height: 32px;
-    background: url('../images/loader.gif');
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 32px;
+	height: 32px;
+	background: url('../images/loader.gif');
 }

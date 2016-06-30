@@ -26,6 +26,8 @@ function init ()
 
 	gui.init(scene);
 
+	window.addEventListener("resize", resize);
+
 	animate();
 }
 
@@ -90,4 +92,15 @@ function animate()
 
 	buffer.update();
 	renderer.render(scene);
+}
+
+function resize ()
+{
+	var width = window.innerWidth;
+	var height = window.innerHeight;
+	renderer.resize(width, height);
+	buffer.resize(width, height);
+	buffer.printFromImage(loader.imageArray[gui.currentImage]);
+	filter.uniforms.resolution.value[0] = window.innerWidth;
+	filter.uniforms.resolution.value[1] = window.innerHeight;
 }
