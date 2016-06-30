@@ -67,6 +67,11 @@ function Buffer (renderer, width, height)
 		this.print(sprite);
 	};
 
+	this.printBackground = function ()
+	{
+		this.printFromImage(loader.getBackground());
+	};
+
 	this.reset = function ()
 	{
 		this.renderTextureArray = [ 

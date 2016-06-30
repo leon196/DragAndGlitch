@@ -1,10 +1,11 @@
 
 var loader = {};
 
-loader.shaderNames = ['Splash', 'Drag'];
-loader.imageNames = ['carte-monde-pays-drapeau.png'];
+loader.shaderNames = ['Splash', 'LightShift', 'Drag', 'Ray'];
+loader.imageNames = ['world.png', 'europe.png', 'farage.jpg'];
 loader.shaderArray = [];
 loader.imageArray = [];
+loader.currentImageName = loader.imageNames[0];
 
 loader.init = function ()
 {
@@ -27,6 +28,11 @@ loader.complete = function (self, resources)
 		loader.shaderArray.push(resources['shader' + i].data);
 	}
 	init();
-}
+};
+
+loader.getBackground = function ()
+{
+	return loader.imageArray[loader.imageNames.indexOf(loader.currentImageName)];
+};
 
 loader.init();

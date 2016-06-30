@@ -12,35 +12,40 @@ gui.dragAnchor = 'Origin';
 
 gui.cursor;
 gui.showCursor = true;
-gui.confirmReset = true;
-gui.currentImage = 0;
+gui.confirmReset = false;
+gui.currentImage = '';
 
 gui.filterMode = 'Nearest';
 
 gui.init = function (container)
 {
 	gui.brushStyle = loader.shaderNames[0];
+	gui.currentImage = loader.currentImageName;
 
 	var datGUI = new dat.GUI();
 	datGUI.remember(gui);
 
-	var brush = datGUI.addFolder('Brush');
-	brush.add(gui, 'brushStyle', loader.shaderNames).name('Style').onChange(gui.updateBrushStyle);
-	// brush.add(gui, 'brushShape', ['Circle', 'Box']).name('Shape').onChange(gui.updateBrushShape);
-	brush.add(gui, 'brushStrength', 1, 10).name('Strength');
-	brush.add(gui, 'brushRadius', 1, 1000).name('Radius').listen().onChange(gui.updateBrushRadius);
-	brush.add(gui, 'brushInverse').name('Inverse').onChange(gui.updateBrushInverse);
-	brush.open();
+	var brushFolder = datGUI.addFolder('Brush');
+	brushFolder.add(gui, 'brushStyle', loader.shaderNames).name('Style').onChange(gui.updateBrushStyle);
+	// brushFolder.add(gui, 'brushShape', ['Circle', 'Box']).name('Shape').onChange(gui.updateBrushShape);
+	brushFolder.add(gui, 'brushStrength', 1, 10).name('Strength');
+	brushFolder.add(gui, 'brushRadius', 1, 1000).name('Radius').listen().onChange(gui.updateBrushRadius);
+	brushFolder.add(gui, 'brushInverse').name('Inverse').onChange(gui.updateBrushInverse);
+	brushFolder.open();
 	
-	var control = datGUI.addFolder('Cursor');
-	control.add(gui, 'showCursor').name('Show').onChange(gui.updateShowCursor);
-	control.add(gui, 'dragStyle', ['Relative', 'Absolute']).name('Offset');
-	control.add(gui, 'dragAnchor', ['Origin', 'Follow']).name('Anchor');
-	control.add(gui, 'brushSoftness').name('Soft').onChange(gui.updateBrushSoftness);
-	control.open();
+	var cursorFolder = datGUI.addFolder('Cursor');
+	cursorFolder.add(gui, 'showCursor').name('Show').onChange(gui.updateShowCursor);
+	cursorFolder.add(gui, 'dragStyle', ['Relative', 'Absolute']).name('Offset');
+	cursorFolder.add(gui, 'dragAnchor', ['Origin', 'Follow']).name('Anchor');
+	cursorFolder.add(gui, 'brushSoftness').name('Soft').onChange(gui.updateBrushSoftness);
+	cursorFolder.open();
+
+	var backgroundFolder = datGUI.addFolder('Background');
+	backgroundFolder.add(gui, 'currentImage', loader.imageNames).name('Image').onChange(gui.updateBackground);
+	backgroundFolder.open();
 
 	datGUI.add(gui, 'reset').name('Reset');
-	datGUI.add(gui, 'confirmReset').name('Confirm Reset');
+	// datGUI.add(gui, 'confirmReset').name('Confirm Reset');
 
 	var advanced = datGUI.addFolder('Advanced');
 	advanced.add(gui, 'filterMode', ['Nearest', 'Linear']).name('Filter Mode')
@@ -58,10 +63,10 @@ gui.reset = function ()
 	if (gui.confirmReset) {
 		var shouldReset = confirm("Reset pixels ?");
 		if (shouldReset) {
-			buffer.printFromImage(loader.imageArray[gui.currentImage]);
+			buffer.printBackground();
 		}
 	} else {
-		buffer.printFromImage(loader.imageArray[gui.currentImage]);
+		buffer.printBackground();
 	}
 };
 
@@ -106,6 +111,13 @@ gui.updateBrushInverse = function (value)
 gui.updateShowCursor = function (value)
 {
 	gui.cursor.visible = value;
+};
+
+gui.updateBackground = function (value)
+{
+	var index = loader.imageNames.indexOf(value);
+	loader.currentImageName = loader.imageNames[index];
+	buffer.printBackground();
 };
 
 gui.updateFilterMode = function (value)

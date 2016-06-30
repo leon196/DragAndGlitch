@@ -51,7 +51,15 @@ void main (void)
 	dist = mix(1.0 - dist, dist, brushInverse);
 	float variation = noiseIQ(vec3(angle * 8.0, brushDrag.x, brushDrag.y));
 
-	vec2 offset = vec2(cos(angle), sin(angle)) * pixelUnit * brushStrength * variation * dist;
+	vec2 offset = vec2(cos(angle), sin(angle)) * pixelUnit * brushStrength * variation * dist * 10.0;
+
+	vec4 c = texture2D(uSampler, uv);
+	float lum = (c.r + c.g + c.b) / 3.;
+	angle = lum * 3.1416 * 2.;
+	offset += vec2(cos(angle), sin(angle)) * pixelUnit * brushStrength * dist;
+
+	// angle = rand(uv) * 3.1416 * 2.0;
+	// offset += vec2(cos(angle), sin(angle)) * pixelUnit * brushStrength * dist;
 
 	vec4 color = texture2D(uSampler, mod(abs(uv - offset + 1.0), 1.0));
 

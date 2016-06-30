@@ -19,7 +19,7 @@ function init ()
 
 	input.setup(scene);
 
-	buffer.printFromImage(loader.imageArray[gui.currentImage]);
+	buffer.printBackground();
 
 	filter = new Filter(loader.shaderArray[0]);
 	buffer.container.filters = [filter];
@@ -100,7 +100,7 @@ function resize ()
 	var height = window.innerHeight;
 	renderer.resize(width, height);
 	buffer.resize(width, height);
-	buffer.printFromImage(loader.imageArray[gui.currentImage]);
+	buffer.printBackground();
 	filter.uniforms.resolution.value[0] = window.innerWidth;
 	filter.uniforms.resolution.value[1] = window.innerHeight;
 }
