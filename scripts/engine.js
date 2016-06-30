@@ -1,7 +1,6 @@
-var renderer, resolution, aspectRatio;
-var scene, stage, sprite, filter, text;
-var image, cursor;
-var cursorRotSeed;
+var renderer;
+var scene, filter;
+var cursor;
 var buffer;
 
 PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.NEAREST;
@@ -20,19 +19,12 @@ function init ()
 
 	input.setup(scene);
 
-	image = new PIXI.Sprite.fromImage('images/carte-monde-pays-drapeau.png');
-	image.width = window.innerWidth;
-	image.height = window.innerHeight;
-	buffer.print(image);
-
-	// cursor = new PIXI.Sprite.fromImage('images/pognon.png');
-	// cursor.scaleMode = PIXI.SCALE_MODES.NEAREST;
-	// cursor.scale.set(0.4);
-	// cursor.anchor.set(0.5);
-	// scene.addChild(cursor);
+	buffer.printFromImage(loader.imageArray[gui.currentImage]);
 
 	filter = new Filter(loader.shaderArray[0]);
 	buffer.container.filters = [filter];
+
+	gui.init(scene);
 
 	animate();
 }
@@ -56,6 +48,7 @@ function animate()
 	// 	cursor.rotation = lerp(cursor.rotation, cursorRotSeed * Math.PI * 2.0, ratio);
 	// } else {
 	// }
+	gui.update();
 
 	filter.updateDrag(input.down);
 	filter.update();

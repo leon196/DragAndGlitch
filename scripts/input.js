@@ -10,6 +10,9 @@ input.drag = new vec2();
 input.dragOrigin = new vec2();
 input.dragDelta = new vec2();
 
+input.wheel = 0;
+input.wheelDelta = 0;
+
 input.start = 0;
 input.delay = 0.5;
 
@@ -41,6 +44,12 @@ input.mouseUp = function(event)
 	input.clic = false;
 };
 
+input.mouseWheel = function(x, y)
+{
+	input.wheel += y;
+	input.wheelDelta = y;
+};
+
 input.setup = function (container)
 {
   container.interactive = true;
@@ -48,4 +57,8 @@ input.setup = function (container)
   container.on('mouseup', input.mouseUp).on('touchend', input.mouseUp);
   container.on('mouseout', input.mouseUp);
   container.on('mousemove', input.mouseMove).on('touchmove', input.mouseMove);
+	
+  addWheelListener(renderer.view, function (e) {
+    input.mouseWheel(e.deltaX, e.deltaY);
+  });
 };

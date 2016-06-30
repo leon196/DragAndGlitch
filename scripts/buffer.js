@@ -38,4 +38,12 @@ function Buffer (renderer, width, height)
 		this.update();
 		this.removeChild(container);
 	};
+
+	this.printFromImage = function (image)
+	{
+		var sprite = new PIXI.Sprite.fromImage(image);
+		sprite.width = this.width;
+		sprite.height = this.height;
+		buffer.print(sprite);
+	};
 };

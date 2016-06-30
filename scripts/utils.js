@@ -9,3 +9,8 @@ function vec2 ()
 	this.x = 0;
 	this.y = 0;
 }
+
+function clamp (value, min, max)
+{
+	return Math.max(min, Math.min(max, value));
+}

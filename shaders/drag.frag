@@ -6,6 +6,7 @@ uniform sampler2D uImage;
 uniform sampler2D uBuffer;
 uniform float uTime;
 uniform float uStrength;
+uniform float brushRadius;
 uniform vec2 uResolution;
 uniform vec2 uTarget;
 uniform vec2 uOffset;
@@ -28,7 +29,8 @@ void main (void)
 	vec4 color = texture2D(uBuffer, uv);
 	vec2 center = uv - uTarget / uResolution;
 	float angle = atan(center.y, center.x);
-	float dist = 1.0 - clamp(length(center) * 2.0, 0.0, 1.0);
+	float radius = brushRadius / uResolution.y;
+	float dist = 1.0 - smoothstep(0.0, radius, length(center));
 	// dist *= dist;
 	float lod = 32.0;
 	float variation = rand(vec2(floor(angle * lod) / lod, 0)) * rand(vec2(angle, 0));
