@@ -7,6 +7,7 @@ uniform sampler2D uBuffer;
 uniform float uTime;
 uniform float uStrength;
 uniform float brushRadius;
+uniform float brushInverse;
 uniform vec2 uResolution;
 uniform vec2 uTarget;
 uniform vec2 uOffset;
@@ -30,7 +31,8 @@ void main (void)
 	vec2 center = uv - uTarget / uResolution;
 	float angle = atan(center.y, center.x);
 	float radius = brushRadius / uResolution.y;
-	float dist = 1.0 - smoothstep(0.0, radius, length(center));
+	float dist = smoothstep(0.0, radius, length(center));
+	dist = mix(1.0 - dist, dist, brushInverse);
 	// dist *= dist;
 	float lod = 32.0;
 	float variation = rand(vec2(floor(angle * lod) / lod, 0)) * rand(vec2(angle, 0));

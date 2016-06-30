@@ -9,6 +9,7 @@ function Filter (fragmentSource)
 		uTarget : { type: '2f', value: [0, 0] } ,
 		uOffset : { type: '2f', value: [0, 0] } ,
 		brushRadius : { type: '1f', value: 0 } ,
+		brushInverse : { type: '1f', value: 0 } ,
 		uImage : { type : 'sampler2D', value : 0},
 		uBuffer : { type : 'sampler2D', value : 0}
 	} );
@@ -16,7 +17,6 @@ function Filter (fragmentSource)
 	this.update = function ()
 	{
 		this.uniforms.uTime.value = time.elapsed;
-		this.uniforms.brushRadius.value = gui.brushRadius;
 	}
 
 	this.updateDrag = function (shouldDrag)

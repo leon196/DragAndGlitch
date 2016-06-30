@@ -4,29 +4,33 @@ var gui = {};
 gui.brushStyle = 'Drag';
 gui.brushShape = 'Circle';
 gui.brushRadius = 100;
+gui.brushInverse = false;
 
 gui.cursor;
 gui.showCursor = true;
 gui.currentImage = 0;
 
+gui.filterMode = 'Nearest';
+
 gui.init = function (container)
 {
 	var datGUI = new dat.GUI();
 	datGUI.remember(gui);
-	datGUI.add(gui, 'brushStyle', [ 'Drag' ])
-		.name('Brush Style')
-		.onFinishChange(function (value) {});
-	// datGUI.add(gui, 'brushShape', [ 'Circle' ])
-	// 	.name('Brush Shape');
-	datGUI.add(gui, 'brushRadius', 1, 1000)
-		.name('Brush Radius')
-		.listen()
-		.onChange(function (value) { gui.updateBrushRadius(value); });
+
+	var brush = datGUI.addFolder('Brush');
+	brush.add(gui, 'brushStyle', [ 'Drag' ]).name('Style').onFinishChange(function (value) {});
+	// brush.add(gui, 'brushShape', [ 'Circle' ]).name('Shape');
+	brush.add(gui, 'brushRadius', 1, 1000).name('Radius').listen().onChange(gui.updateBrushRadius);
+	brush.add(gui, 'brushInverse').name('Inverse').onFinishChange(gui.updateBrushInverse);
+	brush.open();
 
 	// datGUI.add(gui, 'showCursor').name('Show Cursor');
 	datGUI.add(gui, 'reset').name('Reset');
 
-	// var f2 = gui.addFolder('Letters');
+	var advanced = datGUI.addFolder('Advanced');
+	advanced.add(gui, 'filterMode', ['Nearest', 'Linear']).name('Filter Mode')
+		.onFinishChange(gui.updateFilterMode);
+
 	gui.cursor = new Cursor();
 	gui.cursor.circle(0, 0, gui.brushRadius);
 	gui.cursor.x = input.x;
@@ -46,7 +50,7 @@ gui.update = function ()
 
 	if (Math.abs(input.wheel) > 0) {
 		gui.brushRadius = clamp(gui.brushRadius + input.wheel / 10, 1, 1000);
-		gui.cursor.circle(0, 0, gui.brushRadius);
+		gui.updateBrushRadius(gui.brushRadius);
 		input.wheel = 0;
 	}
 };
@@ -54,4 +58,21 @@ gui.update = function ()
 gui.updateBrushRadius = function (value)
 {
 	gui.cursor.circle(0, 0, value);
+	filter.uniforms.brushRadius.value = gui.brushRadius;
+};
+
+gui.updateBrushInverse = function (value)
+{
+	filter.uniforms.brushInverse.value = value ? 1 : 0;
+};
+
+gui.updateFilterMode = function (value)
+{
+	if (value == 'Nearest') {
+		PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.NEAREST;
+	} else if (value == 'Linear') {	
+		PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.LINEAR;
+	}
+	buffer.reset();
+	gui.reset();
 };

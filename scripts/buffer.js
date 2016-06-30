@@ -2,16 +2,27 @@
 
 function Buffer (renderer, width, height)
 {
+	this.renderer = renderer;
 	this.width = width;
 	this.height = height;
 	this.renderTextureArray = [ 
-		new PIXI.RenderTexture(renderer, this.width, this.height),
-		new PIXI.RenderTexture(renderer, this.width, this.height)
+		new PIXI.RenderTexture(this.renderer, this.width, this.height),
+		new PIXI.RenderTexture(this.renderer, this.width, this.height)
 	];
 	this.current = 0;
 	this.sprite = new PIXI.Sprite(this.renderTextureArray[this.current]);
 	this.container = new PIXI.Container();
 	this.container.addChild(this.sprite);
+
+	this.reset = function ()
+	{
+		this.renderTextureArray = [ 
+			new PIXI.RenderTexture(this.renderer, this.width, this.height),
+			new PIXI.RenderTexture(this.renderer, this.width, this.height)
+		];
+		this.current = 0;
+		this.sprite.texture = this.renderTextureArray[this.current];
+	};
 
 	this.update = function () 
 	{
