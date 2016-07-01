@@ -53,8 +53,9 @@ input.mouseUp = function(event)
 
 input.mouseWheel = function(x, y)
 {
+	y = y > 0 ? 100 : -100;
 	input.wheel += y;
-	input.wheelDelta = y;
+	input.wheelDelta = y;	
 };
 
 input.setup = function (container)

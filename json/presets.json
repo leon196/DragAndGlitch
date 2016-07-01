@@ -14,7 +14,6 @@
         "dragStyle": "Relative",
         "dragAnchor": "Origin",
         "brushSoftness": true,
-        "currentImage": "europe.png",
         "filterMode": "Nearest"
       }
     },
@@ -31,7 +30,6 @@
         "dragStyle": "Relative",
         "dragAnchor": "Follow",
         "brushSoftness": true,
-        "currentImage": "europe.png",
         "filterMode": "Nearest"
       }
     },
@@ -48,7 +46,6 @@
         "dragStyle": "Relative",
         "dragAnchor": "Follow",
         "brushSoftness": true,
-        "currentImage": "europe.png",
         "filterMode": "Nearest"
       }
     },
@@ -65,7 +62,6 @@
         "dragStyle": "Relative",
         "dragAnchor": "Follow",
         "brushSoftness": true,
-        "currentImage": "europe.png",
         "filterMode": "Nearest"
       }
     },
@@ -82,7 +78,6 @@
         "dragStyle": "Relative",
         "dragAnchor": "Follow",
         "brushSoftness": true,
-        "currentImage": "europe.png",
         "filterMode": "Nearest"
       }
     },
@@ -99,7 +94,6 @@
         "dragStyle": "Absolute",
         "dragAnchor": "Origin",
         "brushSoftness": false,
-        "currentImage": "europe.png",
         "filterMode": "Nearest"
       }
     },
@@ -116,7 +110,6 @@
         "dragStyle": "Relative",
         "dragAnchor": "Follow",
         "brushSoftness": true,
-        "currentImage": "europe.png",
         "filterMode": "Nearest"
       }
     }
