@@ -12,7 +12,8 @@ function Filter (fragmentSource)
 		lightRatio : { type: '1f', value: 1 },
 		brushStrengh : { type: '1f', value: 100 },
 		brushSoftness : { type: '1f', value: 1 },
-		brushInverse : { type: '1f', value: 0 }
+		brushInverse : { type: '1f', value: 0 },
+		brushOpposite : { type: '1f', value: 0 }
 	});
 
 	this.update = function ()
@@ -20,6 +21,7 @@ function Filter (fragmentSource)
 		this.uniforms.time.value = time.elapsed;
 		this.uniforms.brushRadius.value = gui.brushRadius;
 		this.uniforms.brushInverse.value = gui.brushInverse;
+		this.uniforms.brushOpposite.value = gui.brushOpposite;
 		this.uniforms.noiseScale.value = gui.noiseScale;
 		this.uniforms.lightRatio.value = gui.lightRatio;
 		this.uniforms.brushSoftness.value = gui.brushSoftness ? 1 : 0;

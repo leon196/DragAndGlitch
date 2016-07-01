@@ -11,6 +11,7 @@ uniform vec2 brushDrag;
 uniform float brushStrength;
 uniform float brushRadius;
 uniform float brushInverse;
+uniform float brushOpposite;
 uniform float brushSoftness;
 uniform float noiseScale;
 
@@ -34,6 +35,8 @@ void main (void)
 	float dist = smoothstep(0.0, radius, length(center));
 	dist = mix(step(0.999, dist), dist, brushSoftness);
 	dist = mix(1.0 - dist, dist, brushInverse);
+	dist = mix(dist, dist * -1., brushOpposite);
+	
 	float variation = rand(vec2(floor(angle * noiseScale) / noiseScale, brushPosition.x + brushDrag.x));
 	variation *= rand(vec2(angle, brushPosition.y + brushDrag.y));
 	variation *= variation;

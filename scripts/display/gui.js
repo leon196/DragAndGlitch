@@ -5,6 +5,7 @@ gui.brushStyle = '';
 gui.brushShape = 'Circle';
 gui.brushRadius = 300;
 gui.brushInverse = false;
+gui.brushOpposite = false;
 gui.brushStrength = 5;
 gui.lightRatio = 1;
 gui.brushSoftness = true;
@@ -33,7 +34,8 @@ gui.init = function (container)
 	brushFolder.add(gui, 'brushStrength', 1, 20).name('Strength');
 	brushFolder.add(gui, 'brushRadius', 1, 1000).name('Radius').listen().onChange(gui.updateBrushRadius);
 	brushFolder.add(gui, 'lightRatio', 0.95, 1.05).name('Light Ratio').step(0.01);
-	brushFolder.add(gui, 'brushInverse').name('Inverse').onChange(gui.updateBrushInverse);
+	brushFolder.add(gui, 'brushInverse').name('Inverse');
+	brushFolder.add(gui, 'brushOpposite').name('Opposite');
 	brushFolder.close();
 
 	var noiseFolder = datGUI.addFolder('Noise');
@@ -108,11 +110,6 @@ gui.updateBrushShape = function (value)
 		gui.cursor.box(gui.brushRadius);
 		filter.uniforms.brushRadius.value = gui.brushRadius;
 	}
-};
-
-gui.updateBrushInverse = function (value)
-{
-	filter.uniforms.brushInverse.value = value ? 1 : 0;
 };
 
 gui.updateShowCursor = function (value)

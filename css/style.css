@@ -21,6 +21,27 @@ canvas
 	margin: 0 auto;
 }
 
+a:link { 
+	text-decoration: underline; 
+	color: orange; 
+	font-weight: bold; 
+}
+a:visited { 
+	text-decoration: underline; 
+	color: orange; 
+	font-weight: bold; 
+}
+a:hover { 
+	text-decoration: underline; 
+	color: orange; 
+	font-weight: bold;
+}
+a:active { 
+	text-decoration: underline; 
+	color: orange; 
+	font-weight: bold;
+}
+
 #loader
 {
 	position: absolute;
@@ -29,4 +50,27 @@ canvas
 	width: 32px;
 	height: 32px;
 	background: url('../images/loader.gif');
+}
+
+#info
+{
+	text-align: left;
+	font-family: sans-serif;
+	font-family: 20px;
+	color: #cccccc;
+	background-color: #333333;
+	border: 2px dashed #cccccc;
+	display: block;
+	position: fixed;
+	left: 8px;
+	top: 8px;
+	padding: 8px;
+	width: 400px;
+}
+
+#info button
+{
+	position: absolute;
+	top : 8px;
+	right : 8px;
 }

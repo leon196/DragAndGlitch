@@ -12,6 +12,7 @@ uniform float brushStrength;
 uniform float brushRadius;
 uniform float brushInverse;
 uniform float brushSoftness;
+uniform float brushOpposite;
 uniform float noiseScale;
 
 uniform float lightRatio;
@@ -52,6 +53,8 @@ void main (void)
 	float dist = smoothstep(0.0, radius, length(center));
 	dist = mix(step(0.999, dist), dist, brushSoftness);
 	dist = mix(1.0 - dist, dist, brushInverse);
+	dist = mix(dist, dist * -1., brushOpposite);
+	
 	float variation = noiseIQ(vec3(abs(angle), brushDrag.x, brushDrag.y) * noiseScale);
 
 	vec2 offset = vec2(cos(angle), sin(angle)) * pixelUnit * brushStrength * variation * dist;

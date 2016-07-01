@@ -10,8 +10,7 @@ function init ()
 	var width = window.innerWidth;
 	var height = window.innerHeight;
 
-	renderer = new PIXI.WebGLRenderer(width, height);
-	document.body.appendChild(renderer.view);
+	renderer = new PIXI.WebGLRenderer(width, height, { view: document.getElementById('view') });
 
 	buffer = new Buffer(renderer, width, height);
 	scene = new PIXI.Container();
