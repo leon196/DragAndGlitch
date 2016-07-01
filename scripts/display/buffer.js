@@ -11,6 +11,7 @@ function Buffer (renderer, width, height)
 	];
 	this.current = 0;
 	this.sprite = new PIXI.Sprite(this.renderTextureArray[this.current]);
+	this.dragAndDropSprite = null;
 	this.container = new PIXI.Container();
 	this.container.addChild(this.sprite);
 
@@ -46,25 +47,32 @@ function Buffer (renderer, width, height)
 		this.removeChild(container);
 	};
 
-	this.printFromImage = function (image)
+	this.printFromSprite = function (sprite)
 	{
-		var sprite = new PIXI.Sprite(new PIXI.Texture(new PIXI.BaseTexture(image)));
 		this.resizeSprite(sprite);
 		this.clear();
 		this.print(sprite);
+	};
+
+	this.printFromImage = function (image)
+	{
+		this.dragAndDropSprite = new PIXI.Sprite(new PIXI.Texture(new PIXI.BaseTexture(image)));
+		this.printFromSprite(this.dragAndDropSprite);
 	};
 
 	this.printFromImageUrl = function (url)
 	{
 		var sprite = new PIXI.Sprite.fromImage(url);
-		this.resizeSprite(sprite);
-		this.clear();
-		this.print(sprite);
+		this.printFromSprite(sprite);
 	};
 
 	this.printBackground = function ()
 	{
-		this.printFromImageUrl(loader.getBackground());
+		if (this.dragAndDropSprite == null) {
+			this.printFromImageUrl(loader.getBackground());
+		} else {
+			this.printFromSprite(this.dragAndDropSprite);
+		}
 	};
 
 	this.reset = function ()
