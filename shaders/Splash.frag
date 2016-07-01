@@ -12,6 +12,9 @@ uniform float brushStrength;
 uniform float brushRadius;
 uniform float brushInverse;
 uniform float brushSoftness;
+uniform float noiseScale;
+
+uniform float lightRatio;
 
 // hash based 3d value noise
 // function taken from https://www.shadertoy.com/view/XslGRr
@@ -49,11 +52,13 @@ void main (void)
 	float dist = smoothstep(0.0, radius, length(center));
 	dist = mix(step(0.999, dist), dist, brushSoftness);
 	dist = mix(1.0 - dist, dist, brushInverse);
-	float variation = noiseIQ(vec3(angle * 8.0, brushDrag.x, brushDrag.y));
+	float variation = noiseIQ(vec3(abs(angle), brushDrag.x, brushDrag.y) * noiseScale);
 
 	vec2 offset = vec2(cos(angle), sin(angle)) * pixelUnit * brushStrength * variation * dist;
 
 	vec4 color = texture2D(uSampler, mod(abs(uv - offset + 1.0), 1.0));
+
+	color = mix(color, color * lightRatio, dist * clamp(brushStrength, 0.0, 1.0));
 
 	gl_FragColor = color;
 }

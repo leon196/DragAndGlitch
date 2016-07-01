@@ -13,29 +13,7 @@ uniform float brushRadius;
 uniform float brushInverse;
 uniform float brushSoftness;
 
-// hash based 3d value noise
-// function taken from https://www.shadertoy.com/view/XslGRr
-// Created by inigo quilez - iq/2013
-// License Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
-
-// ported from GLSL to HLSL
-float hash( float n )
-{
-  return fract(sin(n)*43758.5453);
-}
-
-float noiseIQ( vec3 x )
-{
-  // The noise function returns a value in the range -1.0f -> 1.0f
-  vec3 p = floor(x);
-  vec3 f = fract(x);
-  f       = f*f*(3.0-2.0*f);
-  float n = p.x + p.y*57.0 + 113.0*p.z;
-  return mix(mix(mix( hash(n+0.0), hash(n+1.0),f.x),
-   mix( hash(n+57.0), hash(n+58.0),f.x),f.y),
-  mix(mix( hash(n+113.0), hash(n+114.0),f.x),
-   mix( hash(n+170.0), hash(n+171.0),f.x),f.y),f.z);
-}
+uniform float lightRatio;
 
 void main (void)
 {
@@ -44,24 +22,19 @@ void main (void)
 	vec2 pixelUnit = 1. / resolution;
 	vec2 center = uv - brushPosition / resolution;
 	center.x *= resolution.x / resolution.y;
-	float angle = atan(center.y, center.x);
 	float radius = brushRadius / resolution.y;
 	float dist = smoothstep(0.0, radius, length(center));
 	dist = mix(step(0.999, dist), dist, brushSoftness);
 	dist = mix(1.0 - dist, dist, brushInverse);
-	float variation = noiseIQ(vec3(angle * 8.0, brushDrag.x, brushDrag.y));
-
-	vec2 offset = vec2(cos(angle), sin(angle)) * pixelUnit * brushStrength * variation * dist * 10.0;
 
 	vec4 c = texture2D(uSampler, uv);
 	float lum = (c.r + c.g + c.b) / 3.;
-	angle = lum * 3.1416 * 2.;
-	offset += vec2(cos(angle), sin(angle)) * pixelUnit * brushStrength * dist;
-
-	// angle = rand(uv) * 3.1416 * 2.0;
-	// offset += vec2(cos(angle), sin(angle)) * pixelUnit * brushStrength * dist;
+	float angle = lum * 3.1416 * 2.;
+	vec2 offset = vec2(cos(angle), sin(angle)) * pixelUnit * brushStrength * dist * length(brushDrag);
 
 	vec4 color = texture2D(uSampler, mod(abs(uv - offset + 1.0), 1.0));
+
+	color = mix(color, color * lightRatio, dist * clamp(brushStrength, 0.0, 1.0));
 
 	gl_FragColor = color;
 }

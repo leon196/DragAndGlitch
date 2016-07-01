@@ -1,8 +1,8 @@
 
 var loader = {};
 
-loader.shaderNames = ['Splash', 'LightShift', 'Drag', 'Ray'];
-loader.imageNames = ['world.png', 'europe.png', 'farage.jpg'];
+loader.shaderNames = ['Drag', 'Splash', 'Ray', 'LightShift', 'ColorShift'];
+loader.imageNames = ['europe.png', 'farage.jpg', 'world.png'];
 loader.shaderArray = [];
 loader.imageArray = [];
 loader.currentImageName = loader.imageNames[0];

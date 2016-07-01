@@ -3,13 +3,14 @@ var gui = {};
 
 gui.brushStyle = '';
 gui.brushShape = 'Circle';
-gui.brushRadius = 100;
+gui.brushRadius = 300;
 gui.brushInverse = false;
-gui.brushStrength = 1;
+gui.brushStrength = 5;
+gui.lightRatio = 1;
 gui.brushSoftness = true;
 gui.dragStyle = 'Relative';
 gui.dragAnchor = 'Origin';
-
+gui.noiseScale = 8;
 gui.cursor;
 gui.showCursor = true;
 gui.confirmReset = false;
@@ -28,10 +29,15 @@ gui.init = function (container)
 	var brushFolder = datGUI.addFolder('Brush');
 	brushFolder.add(gui, 'brushStyle', loader.shaderNames).name('Style').onChange(gui.updateBrushStyle);
 	// brushFolder.add(gui, 'brushShape', ['Circle', 'Box']).name('Shape').onChange(gui.updateBrushShape);
-	brushFolder.add(gui, 'brushStrength', 1, 10).name('Strength');
+	brushFolder.add(gui, 'brushStrength', 1, 20).name('Strength');
 	brushFolder.add(gui, 'brushRadius', 1, 1000).name('Radius').listen().onChange(gui.updateBrushRadius);
+	brushFolder.add(gui, 'lightRatio', 0.95, 1.05).name('Light Ratio').step(0.01);
 	brushFolder.add(gui, 'brushInverse').name('Inverse').onChange(gui.updateBrushInverse);
 	brushFolder.open();
+
+	var noiseFolder = datGUI.addFolder('Noise');
+	noiseFolder.add(gui, 'noiseScale', 1, 32).name('Scale');
+	noiseFolder.open();
 	
 	var cursorFolder = datGUI.addFolder('Cursor');
 	cursorFolder.add(gui, 'showCursor').name('Show').onChange(gui.updateShowCursor);

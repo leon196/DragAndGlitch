@@ -88,6 +88,8 @@ function animate()
 
 		gui.cursor.rotation += rot / gui.brushStrength;
 
+	} else {
+		gui.cursor.rotation = 0;
 	}
 
 	buffer.update();

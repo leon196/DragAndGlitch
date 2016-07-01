@@ -12,14 +12,27 @@ uniform float brushStrength;
 uniform float brushRadius;
 uniform float brushInverse;
 uniform float brushSoftness;
-uniform float noiseScale;
 
 uniform float lightRatio;
 
-// https://gist.github.com/patriciogonzalezvivo/670c22f3966e662d2f83
-float rand (vec2 n)
+// Sam Hocevar
+vec3 rgb2hsv(vec3 c)
 {
-  return fract(sin(dot(n, vec2(12.9898, 4.1414))) * 43758.5453);
+  vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
+  vec4 p = mix(vec4(c.bg, K.wz), vec4(c.gb, K.xy), step(c.b, c.g));
+  vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));
+
+  float d = q.x - min(q.w, q.y);
+  float e = 1.0e-10;
+  return vec3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
+}
+
+// Sam Hocevar
+vec3 hsv2rgb(vec3 c)
+{
+  vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+  vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
+  return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
 }
 
 void main (void)
@@ -34,21 +47,13 @@ void main (void)
 	float dist = smoothstep(0.0, radius, length(center));
 	dist = mix(step(0.999, dist), dist, brushSoftness);
 	dist = mix(1.0 - dist, dist, brushInverse);
-	float variation = rand(vec2(floor(angle * noiseScale) / noiseScale, brushPosition.x + brushDrag.x));
-	variation *= rand(vec2(angle, brushPosition.y + brushDrag.y));
-	variation *= variation;
 
-	vec2 offset = vec2(cos(angle), sin(angle)) * pixelUnit * brushStrength * variation * dist * 10.0;
+	vec4 c = texture2D(uSampler, uv);
+	angle += rgb2hsv(c.rgb).x * 3.1416 * 8.;
+	vec2 offset = vec2(cos(angle), sin(angle)) * pixelUnit * brushStrength * dist * length(brushDrag);
 
-	// vec4 color = texture2D(uBuffer, uv);
-	// float lum = (color.r + color.g + color.b) / 3.;
-	// angle = lum * 3.1416 * 2.;
-	// offset += vec2(cos(angle), sin(angle)) * pixelUnit * brushStrength * dist;
-
-	// angle = rand(uv) * 3.1416 * 2.0;
-	// offset += vec2(cos(angle), sin(angle)) * pixelUnit * brushStrength * dist;
-
-	vec4 color = texture2D(uSampler, mod(abs(uv - offset + 1.0), 1.0));
+	uv = mod(abs(uv - offset + 1.0), 1.0);
+	vec4 color = texture2D(uSampler, uv, 1.0);
 
 	color = mix(color, color * lightRatio, dist * clamp(brushStrength, 0.0, 1.0));
 

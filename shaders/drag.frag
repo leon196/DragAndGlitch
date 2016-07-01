@@ -13,6 +13,8 @@ uniform float brushRadius;
 uniform float brushInverse;
 uniform float brushSoftness;
 
+uniform float lightRatio;
+
 void main (void)
 {
 	vec2 uv = vTextureCoord;
@@ -28,6 +30,8 @@ void main (void)
 	uv = mod(abs(uv + 1.0), 1.0);
 
 	vec4 color = texture2D(uSampler, uv);
+
+	color = mix(color, color * lightRatio, dist * clamp(brushStrength, 0.0, 1.0));
 
 	gl_FragColor = color;
 }
