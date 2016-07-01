@@ -27,6 +27,8 @@ function init ()
 	gui.init(scene);
 
 	window.addEventListener("resize", resize);
+	renderer.view.ondragover = ondragover;
+	renderer.view.ondrop = ondrop;
 
 	animate();
 }

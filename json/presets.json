@@ -1,0 +1,145 @@
+{
+  "preset": "DragPoint",
+  "remembered": {
+    "DragPoint": {
+      "0": {
+        "brushStyle": "Drag",
+        "brushStrength": 5,
+        "brushRadius": 300,
+        "lightRatio": 1,
+        "brushInverse": false,
+        "noiseScale": 8,
+        "showCursor": true,
+        "dragStyle": "Relative",
+        "dragAnchor": "Origin",
+        "brushSoftness": true,
+        "currentImage": "europe.png",
+        "filterMode": "Nearest"
+      }
+    },
+    "DragMouse": {
+      "0": {
+        "brushStyle": "Drag",
+        "brushStrength": 2,
+        "brushRadius": 200,
+        "lightRatio": 1,
+        "brushInverse": false,
+        "noiseScale": 8,
+        "showCursor": true,
+        "dragStyle": "Relative",
+        "dragAnchor": "Follow",
+        "brushSoftness": true,
+        "currentImage": "europe.png",
+        "filterMode": "Nearest"
+      }
+    },
+    "SplashGrow": {
+      "0": {
+        "brushStyle": "Splash",
+        "brushStrength": 5,
+        "brushRadius": 300,
+        "lightRatio": 1,
+        "brushInverse": false,
+        "noiseScale": 4,
+        "showCursor": true,
+        "dragStyle": "Relative",
+        "dragAnchor": "Follow",
+        "brushSoftness": true,
+        "currentImage": "europe.png",
+        "filterMode": "Nearest"
+      }
+    },
+    "SplashZoom": {
+      "0": {
+        "brushStyle": "Splash",
+        "brushStrength": 10,
+        "brushRadius": 300,
+        "lightRatio": 1,
+        "brushInverse": true,
+        "noiseScale": 4,
+        "showCursor": true,
+        "dragStyle": "Relative",
+        "dragAnchor": "Follow",
+        "brushSoftness": true,
+        "currentImage": "europe.png",
+        "filterMode": "Nearest"
+      }
+    },
+    "RayMouse": {
+      "0": {
+        "brushStyle": "Ray",
+        "brushStrength": 4,
+        "brushRadius": 210,
+        "lightRatio": 1,
+        "brushInverse": true,
+        "noiseScale": 32,
+        "showCursor": true,
+        "dragStyle": "Relative",
+        "dragAnchor": "Follow",
+        "brushSoftness": true,
+        "currentImage": "europe.png",
+        "filterMode": "Nearest"
+      }
+    },
+    "LightShiftPoint": {
+      "0": {
+        "brushStyle": "LightShift",
+        "brushStrength": 1,
+        "brushRadius": 330,
+        "lightRatio": 1,
+        "brushInverse": false,
+        "noiseScale": 32,
+        "showCursor": true,
+        "dragStyle": "Absolute",
+        "dragAnchor": "Origin",
+        "brushSoftness": false,
+        "currentImage": "europe.png",
+        "filterMode": "Nearest"
+      }
+    },
+    "ColorShiftMouse": {
+      "0": {
+        "brushStyle": "ColorShift",
+        "brushStrength": 1,
+        "brushRadius": 370,
+        "lightRatio": 1,
+        "brushInverse": false,
+        "noiseScale": 32,
+        "showCursor": true,
+        "dragStyle": "Relative",
+        "dragAnchor": "Follow",
+        "brushSoftness": true,
+        "currentImage": "europe.png",
+        "filterMode": "Nearest"
+      }
+    }
+  },
+  "closed": false,
+  "folders": {
+    "Brush": {
+      "preset": "Default",
+      "closed": false,
+      "folders": {}
+    },
+    "Noise": {
+      "preset": "Default",
+      "closed": false,
+      "folders": {}
+    },
+    "Cursor": {
+      "preset": "Default",
+      "closed": false,
+      "folders": {}
+    },
+    "Background": {
+      "preset": "Default",
+      "closed": false,
+      "folders": {}
+    },
+    "Advanced": {
+      "preset": "Default",
+      "closed": true,
+      "folders": {}
+    }
+  }
+}

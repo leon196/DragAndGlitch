@@ -6,6 +6,7 @@ loader.imageNames = ['europe.png', 'farage.jpg', 'world.png'];
 loader.shaderArray = [];
 loader.imageArray = [];
 loader.currentImageName = loader.imageNames[0];
+loader.presets = {};
 
 loader.init = function ()
 {
@@ -18,6 +19,8 @@ loader.init = function ()
 		loader.imageArray.push('images/' + loader.imageNames[i]);
 	}
 
+	PIXI.loader.add('presets', 'json/presets.json');
+
 	PIXI.loader.once('complete', loader.complete);
 	PIXI.loader.load();
 };
@@ -27,6 +30,7 @@ loader.complete = function (self, resources)
 	for (var i = 0; i < loader.shaderNames.length; ++i) {
 		loader.shaderArray.push(resources['shader' + i].data);
 	}
+	loader.presets = resources.presets.data;
 	init();
 };
 

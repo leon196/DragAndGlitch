@@ -48,28 +48,23 @@ function Buffer (renderer, width, height)
 
 	this.printFromImage = function (image)
 	{
-		var sprite = new PIXI.Sprite.fromImage(image);
-		if (sprite.width > this.width) {
-			var ratio = sprite.height / sprite.width;
-			sprite.width = this.width;
-			sprite.height = sprite.width * ratio;
-			sprite.x = 0;
-			sprite.y = (this.height - sprite.height) / 2;
-		}
-		if (sprite.height > this.height) {
-			var ratio = sprite.width / sprite.height;
-			sprite.height = this.height;
-			sprite.width = sprite.height * ratio;
-			sprite.x = (this.width - sprite.width) / 2;
-			sprite.y = 0;
-		}
+		var sprite = new PIXI.Sprite(new PIXI.Texture(new PIXI.BaseTexture(image)));
+		this.resizeSprite(sprite);
+		this.clear();
+		this.print(sprite);
+	};
+
+	this.printFromImageUrl = function (url)
+	{
+		var sprite = new PIXI.Sprite.fromImage(url);
+		this.resizeSprite(sprite);
 		this.clear();
 		this.print(sprite);
 	};
 
 	this.printBackground = function ()
 	{
-		this.printFromImage(loader.getBackground());
+		this.printFromImageUrl(loader.getBackground());
 	};
 
 	this.reset = function ()
@@ -87,5 +82,27 @@ function Buffer (renderer, width, height)
 		this.width = width;
 		this.height = height;
 		this.reset();
+	};
+
+	this.resizeSprite = function (sprite)
+	{
+		if (sprite.width > this.width) {
+			var ratio = sprite.height / sprite.width;
+			sprite.width = this.width;
+			sprite.height = sprite.width * ratio;
+			sprite.x = 0;
+			sprite.y = (this.height - sprite.height) / 2;
+		} else {
+			sprite.x = (this.width - sprite.width) / 2;
+		}
+		if (sprite.height > this.height) {
+			var ratio = sprite.width / sprite.height;
+			sprite.height = this.height;
+			sprite.width = sprite.height * ratio;
+			sprite.x = (this.width - sprite.width) / 2;
+			sprite.y = 0;
+		} else {
+			sprite.y = (this.height - sprite.height) / 2;
+		}
 	};
 };

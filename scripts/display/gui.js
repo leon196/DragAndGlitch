@@ -17,13 +17,14 @@ gui.confirmReset = false;
 gui.currentImage = '';
 
 gui.filterMode = 'Nearest';
+gui.lastFilterMode = gui.filterMode;
 
 gui.init = function (container)
 {
 	gui.brushStyle = loader.shaderNames[0];
 	gui.currentImage = loader.currentImageName;
 
-	var datGUI = new dat.GUI();
+	var datGUI = new dat.GUI({ load: loader.presets });
 	datGUI.remember(gui);
 
 	var brushFolder = datGUI.addFolder('Brush');
@@ -33,22 +34,22 @@ gui.init = function (container)
 	brushFolder.add(gui, 'brushRadius', 1, 1000).name('Radius').listen().onChange(gui.updateBrushRadius);
 	brushFolder.add(gui, 'lightRatio', 0.95, 1.05).name('Light Ratio').step(0.01);
 	brushFolder.add(gui, 'brushInverse').name('Inverse').onChange(gui.updateBrushInverse);
-	brushFolder.open();
+	brushFolder.close();
 
 	var noiseFolder = datGUI.addFolder('Noise');
 	noiseFolder.add(gui, 'noiseScale', 1, 32).name('Scale');
-	noiseFolder.open();
+	noiseFolder.close();
 	
 	var cursorFolder = datGUI.addFolder('Cursor');
 	cursorFolder.add(gui, 'showCursor').name('Show').onChange(gui.updateShowCursor);
 	cursorFolder.add(gui, 'dragStyle', ['Relative', 'Absolute']).name('Offset');
 	cursorFolder.add(gui, 'dragAnchor', ['Origin', 'Follow']).name('Anchor');
 	cursorFolder.add(gui, 'brushSoftness').name('Soft').onChange(gui.updateBrushSoftness);
-	cursorFolder.open();
+	cursorFolder.close();
 
 	var backgroundFolder = datGUI.addFolder('Background');
 	backgroundFolder.add(gui, 'currentImage', loader.imageNames).name('Image').onChange(gui.updateBackground);
-	backgroundFolder.open();
+	backgroundFolder.close();
 
 	datGUI.add(gui, 'reset').name('Reset');
 	// datGUI.add(gui, 'confirmReset').name('Confirm Reset');
@@ -122,17 +123,22 @@ gui.updateShowCursor = function (value)
 gui.updateBackground = function (value)
 {
 	var index = loader.imageNames.indexOf(value);
-	loader.currentImageName = loader.imageNames[index];
-	buffer.printBackground();
+	if (loader.currentImageName != loader.imageNames[index]) {
+		loader.currentImageName = loader.imageNames[index];
+		buffer.printBackground();
+	}
 };
 
 gui.updateFilterMode = function (value)
 {
-	if (value == 'Nearest') {
-		PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.NEAREST;
-	} else if (value == 'Linear') {	
-		PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.LINEAR;
+	if (value != gui.lastFilterMode) {
+		gui.lastFilterMode = value;
+		if (value == 'Nearest') {
+			PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.NEAREST;
+		} else if (value == 'Linear') {	
+			PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.LINEAR;
+		}
+		buffer.reset();
+		gui.reset();
 	}
-	buffer.reset();
-	gui.reset();
 };
